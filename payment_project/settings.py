@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -121,3 +122,19 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Or Path(__file__).resolve().parent.parent if using pathlib
+
+# Load .env file
+load_dotenv(os.path.join(BASE_DIR, '.env')) # Correct path relative to settings.py
+
+# ... other settings ...
+
+CHAPA_SECRET_KEY = os.getenv('CHAPA_SECRET_KEY')
+
+
+# Ensure the key is loaded (optional but good practice)
+if not CHAPA_SECRET_KEY:
+    raise ValueError("No CHAPA_SECRET_KEY found in environment variables")
