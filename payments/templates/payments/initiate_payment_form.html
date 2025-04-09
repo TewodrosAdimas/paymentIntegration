@@ -1,0 +1,47 @@
+{% extends 'payments/base.html' %}
+
+{% block title %}Initiate Payment{% endblock %}
+
+{% block page_title %}Enter Payment Details{% endblock %}
+
+{% block content %}
+<p>Enter the details below to proceed with your payment via Chapa.</p>
+
+<!--
+NOTE: In a real application, you should ideally use Django Forms
+for validation and rendering. This is a basic HTML form example.
+-->
+<form method="POST" action="{% url 'payments:initiate_payment' %}">
+    {% csrf_token %} {# Important for security #}
+
+    <div class="form-group">
+        <label for="id_amount">Amount (ETB):</label>
+        <input type="number" id="id_amount" name="amount" step="0.01" value="10.00" required>
+        <small>Example: 10.00</small>
+    </div>
+
+    <div class="form-group">
+        <label for="id_email">Email:</label>
+        <input type="email" id="id_email" name="email" value="test@example.com" required>
+    </div>
+
+    <div class="form-group">
+        <label for="id_first_name">First Name:</label>
+        <input type="text" id="id_first_name" name="first_name" value="Test" required>
+    </div>
+
+    <div class="form-group">
+        <label for="id_last_name">Last Name:</label>
+        <input type="text" id="id_last_name" name="last_name" value="User" required>
+    </div>
+
+    <div class="form-group">
+        <label for="id_phone_number">Phone Number (Optional):</label>
+        <input type="tel" id="id_phone_number" name="phone_number" value="0911111111">
+        <small>Example: 09xxxxxxxx</small>
+    </div>
+
+    <button type="submit">Proceed to Chapa Payment</button>
+</form>
+
+{% endblock %}

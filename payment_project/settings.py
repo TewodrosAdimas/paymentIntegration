@@ -17,7 +17,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load .env file from project root (where manage.py is)
 dotenv_path = os.path.join(os.path.dirname(BASE_DIR), '.env') # Path to .env in parent of settings.py directory
