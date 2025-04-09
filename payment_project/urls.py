@@ -9,7 +9,7 @@ urlpatterns = [
 
     # Include the URLs from the 'payments' app under the 'payments/' prefix
     # Make sure to use the correct namespace ('payments') matching app_name in payments/urls.py
-    path('payments/', include('payments.urls', namespace='payments')),
+    path('', include('payments.urls', namespace='payments')),
 
     # Add other app URLs here
     # path('orders/', include('orders.urls', namespace='orders')),

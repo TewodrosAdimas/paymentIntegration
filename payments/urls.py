@@ -10,7 +10,7 @@ app_name = 'payments'
 urlpatterns = [
     # URL to display the form/button that starts the payment process
     # (Calls initiate_payment_view on POST)
-    path('initiate/', views.initiate_payment_view, name='initiate_payment'),
+    path('', views.initiate_payment_view, name='initiate_payment'),
 
     # URL the user is redirected back to by Chapa after attempting payment
     # (Calls payment_callback_view)
