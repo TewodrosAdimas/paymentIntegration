@@ -11,10 +11,32 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+
+
+# payment_project/settings.py
 import os
 from dotenv import load_dotenv
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Load .env file from project root (where manage.py is)
+dotenv_path = os.path.join(os.path.dirname(BASE_DIR), '.env') # Path to .env in parent of settings.py directory
+load_dotenv(dotenv_path=dotenv_path)
+
+
+# ... other settings ...
+
+CHAPA_SECRET_KEY = os.getenv('CHAPA_SECRET_KEY')
+CHAPA_WEBHOOK_SECRET = os.getenv('CHAPA_WEBHOOK_SECRET') # Secret used to verify incoming webhooks
+
+# --- Ensure keys are loaded ---
+if not CHAPA_SECRET_KEY:
+    raise ValueError("No CHAPA_SECRET_KEY found in environment variables or .env file")
+# Warning if webhook secret is missing during development, raise error in production?
+if not CHAPA_WEBHOOK_SECRET:
+    print("Warning: CHAPA_WEBHOOK_SECRET is not set. Webhook verification will fail.")
+    # Consider raising ValueError in production environments
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -124,17 +146,3 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Or Path(__file__).resolve().parent.parent if using pathlib
-
-# Load .env file
-load_dotenv(os.path.join(BASE_DIR, '.env')) # Correct path relative to settings.py
-
-# ... other settings ...
-
-CHAPA_SECRET_KEY = os.getenv('CHAPA_SECRET_KEY')
-
-
-# Ensure the key is loaded (optional but good practice)
-if not CHAPA_SECRET_KEY:
-    raise ValueError("No CHAPA_SECRET_KEY found in environment variables")
