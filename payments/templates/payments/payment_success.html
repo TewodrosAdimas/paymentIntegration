@@ -1,0 +1,43 @@
+{% extends 'payments/base.html' %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block page_title %}Payment Successful!{% endblock %}
+
+{% block content %}
+<div class="alert alert-success">
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <p>Your payment has been successfully processed.</p>
+    {% endif %}
+</div>
+
+{% if transaction %}
+    <h3>Transaction Details:</h3>
+    <dl>
+        <dt>Your Transaction Reference:</dt>
+        <dd>{{ transaction.tx_ref }}</dd>
+
+        <dt>Amount Paid:</dt>
+        <dd>{{ transaction.amount }} {{ transaction.currency }}</dd>
+
+        <dt>Status:</dt>
+        <dd>{{ transaction.get_status_display }}</dd> {# Use get_FOO_display for choices #}
+
+        {% if transaction.chapa_transaction_id %}
+            <dt>Chapa Transaction ID:</dt>
+            <dd>{{ transaction.chapa_transaction_id }}</dd>
+        {% endif %}
+
+        <dt>Date:</dt>
+        <dd>{{ transaction.updated_at|date:"Y-m-d H:i:s" }}</dd> {# Display update time #}
+    </dl>
+{% endif %}
+
+<p>Thank you for your payment!</p>
+<p>
+    <a href="/">Return to Homepage</a>
+    <!-- Or link to user's dashboard, order history etc. -->
+</p>
+{% endblock %}
