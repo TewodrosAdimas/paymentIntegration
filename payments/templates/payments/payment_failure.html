@@ -1,0 +1,47 @@
+{% extends 'payments/base.html' %}
+
+{% block title %}Payment Failed{% endblock %}
+
+{% block page_title %}Payment Failed{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger">
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <p>Unfortunately, your payment could not be completed successfully.</p>
+    {% endif %}
+</div>
+
+{% if transaction %}
+    <h3>Transaction Details:</h3>
+    <dl>
+        <dt>Your Transaction Reference:</dt>
+        <dd>{{ transaction.tx_ref }}</dd>
+
+        <dt>Amount:</dt>
+        <dd>{{ transaction.amount }} {{ transaction.currency }}</dd>
+
+        <dt>Status:</dt>
+        <dd>{{ transaction.get_status_display }}</dd>
+
+        {% if chapa_status %}
+            <dt>Reason Provided:</dt>
+            <dd>{{ chapa_status }}</dd> {# Display status from Chapa if available #}
+        {% endif %}
+
+        <dt>Date:</dt>
+        <dd>{{ transaction.updated_at|date:"Y-m-d H:i:s" }}</dd>
+    </dl>
+{% else %}
+    <p>No specific transaction details are available.</p>
+{% endif %}
+
+<p>Please try the payment again or contact support if the problem persists.</p>
+<p>
+    <a href="{% url 'payments:initiate_payment' %}">Try Payment Again</a>
+    <br>
+    <a href="/">Return to Homepage</a>
+    <!-- Add link to contact support -->
+</p>
+{% endblock %}
